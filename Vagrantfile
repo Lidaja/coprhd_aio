@@ -7,8 +7,10 @@
 # Global Settings for ScaleIO, CoprHD
 #
 ########################################################
-network = "192.168.100"
+network = "10.10.30"
 domain = 'aio.local'
+bridge_interface = "bond0"
+mac_addresses = ["080027C0CEC1", "0800276D184C", "080027EFED93", "0800276EB41F"]
 
 script_proxy_args = ""
 # Check if we are currently behind proxy
@@ -36,8 +38,8 @@ end
 # CoprHD Settings
 #
 ########################################################
-ch_node_ip = "#{network}.11"
-ch_virtual_ip = "#{network}.10"
+ch_node_ip = "#{network}.231"
+ch_virtual_ip = "#{network}.230"
 ch_gw_ip = "#{network}.1"
 build = true
 ch_vagrantbox = "vchrisb/openSUSE-13.2_64"
@@ -194,7 +196,7 @@ Vagrant.configure("2") do |config|
      coprhd.vm.box = "#{ch_vagrantbox}"
      coprhd.vm.box_url = "#{ch_vagrantboxurl}"
      coprhd.vm.host_name = "coprhd1"
-     coprhd.vm.network "private_network", ip: "#{ch_node_ip}"
+     coprhd.vm.network "public_network", ip: "#{ch_node_ip}", :bridge =>$bridge_interface, :mac => $mac_addresses
 
      # configure virtualbox provider
      coprhd.vm.provider "virtualbox" do |v|
